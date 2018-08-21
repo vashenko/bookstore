@@ -1,48 +1,63 @@
 <div class="form-wrapper">
 
-  <form>
+  <form novalidate [formGroup]="addNewBookForm"
+                    (ngSubmit)="sendData()">
 
     <h3 class="mb-4">Book Info</h3>
 
     <div class="form-group">
       <label for="author">Author</label>
-      <input class="form-control" id="author">
+      <input class="form-control" name="author" formControlName="author">
+        <div class="feedback" *ngIf="author.errors && (author.dirty || author.touched)">
+          <p *ngIf="author.errors.required">This shiled is required</p>
+        </div>
     </div>
 
     <div class="form-group">
       <label for="title">Title</label>
-      <input class="form-control" id="title">
+      <input class="form-control" name="title" formControlName="title">
+        <div class="feedback" *ngIf="title.errors && (title.dirty || title.touched)">
+          <p *ngIf="title.errors.required">This shiled is required</p>
+        </div>
     </div>
 
     <div class="form-group">
       <label for="isbn">ISBN</label>
-      <input class="form-control" id="isbn">
+      <input class="form-control" name="isbn" formControlName="isbn">
+        <div class="feedback" *ngIf="isbn.errors && (isbn.dirty || isbn.touched)">
+          <p *ngIf="isbn.errors.required">This shiled is required</p>
+        </div>
     </div>
 
     <div class="form-group">
       <label for="pages">Number of Pages</label>
-      <input class="form-control" id="pages">
+      <input class="form-control" name="pages" formControlName="pages">
+        <div class="feedback" *ngIf="pages.errors && (pages.dirty || pages.touched)">
+          <p *ngIf="pages.errors.required">This shiled is required</p>
+        </div>
     </div>
 
     <div class="form-group">
       <label for="format">Format</label>
-      <select class="form-control" id="format">
-        <option>Paperback</option>
-        <option>Hardcover</option>
-        <option>Audiobook</option>
-        <option>Leather Bound</option>
-        <option>Spiral Bound</option>
+      <select class="form-control" name="format" formControlName="format">
+        <option *ngFor="let format of formats" [ngValue]="format.name">{{format.name}}</option>
       </select>
+        <div class="feedback" *ngIf="format.errors && (format.dirty || format.touched)">
+          <p *ngIf="format.errors.required">This shiled is required</p>
+        </div>
     </div>
 
     <div class="form-group">
       <label for="description">Description</label>
-      <textarea class="form-control" id="description" rows="3"></textarea>
+      <textarea class="form-control" name="description" rows="3" formControlName="description"></textarea>
     </div>
 
     <div class="form-group">
       <label for="price">Price</label>
-      <input class="form-control" id="price">
+      <input class="form-control" name="price" formControlName="price">
+        <div class="feedback" *ngIf="price.errors && (price.dirty || price.touched)">
+          <p *ngIf="price.errors.required">This shiled is required</p>
+        </div>
     </div>
 
     <hr class="m-1 mb-5 mt-5">
@@ -51,31 +66,24 @@
 
     <div class="form-group">
       <label for="country">Country</label>
-      <select class="form-control" id="country">
-        <option>Country #1</option>
-        <option>Country #2</option>
-        <option>Country #3</option>
+      <select class="form-control" name="country" formControlName="country">
+        <option *ngFor="let country of countries" [ngValue]="country.name">{{country.name}}</option>
       </select>
     </div>
 
     <div class="form-group">
       <label for="city">City</label>
-      <select class="form-control" id="city">
-        <option>City #1</option>
-        <option>City #2</option>
-        <option>City #3</option>
+      <select class="form-control" name="city" formControlName="city">
+        <option *ngFor="let city of cities" [ngValue]="city.name">{{city.name}}</option>
       </select>
     </div>
 
     <div class="form-group">
       <label for="company">Company</label>
-      <select class="form-control" id="company">
-        <option>Company #1</option>
-        <option>Company #2</option>
-        <option>Company #3</option>
+      <select class="form-control" name="company" formControlName="company">
+        <option *ngFor="let company of companies" [ngValue]="company.name">{{company.name}}</option>
       </select>
     </div>
-
     <button type="submit" class="btn btn-primary mt-4">Submit</button>
 
   </form>

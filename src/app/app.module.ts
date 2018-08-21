@@ -8,6 +8,14 @@ import { BookComponent } from './book/book.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { ShowcaseComponent } from './showcase/showcase.component';
 import { SearchComponent } from './search/search.component';
+import {HttpClientModule} from "@angular/common/http";
+import {HttpModule} from "@angular/http";
+
+
+import {BooksService} from "./services/books-service";
+import {DataConvertService} from "./services/convert-data.service";
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,9 +28,13 @@ import { SearchComponent } from './search/search.component';
   imports: [
     AppRoutingModule,
     BrowserModule,
-    RouterModule
+    RouterModule,
+    HttpClientModule,
+    HttpModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [BooksService, DataConvertService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
