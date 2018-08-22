@@ -16,6 +16,9 @@ import {BooksService} from "./services/books-service";
 import {DataConvertService} from "./services/convert-data.service";
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {SearchService} from "./services/search.service";
+import {InterceptorModule} from "./services/interceptor";
+
 
 @NgModule({
   declarations: [
@@ -26,15 +29,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SearchComponent
   ],
   imports: [
+    RouterModule,
     AppRoutingModule,
     BrowserModule,
-    RouterModule,
     HttpClientModule,
     HttpModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    InterceptorModule
+
   ],
-  providers: [BooksService, DataConvertService],
+  providers: [BooksService, DataConvertService, SearchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

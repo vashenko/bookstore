@@ -3,8 +3,7 @@ import {Optional} from "@angular/core";
 export class Book {
 
 
-  constructor(
-              public author: string,
+  constructor(public author: string,
               @Optional() public cityId: string,
               @Optional() public companyId: string,
               @Optional() public countryId: string,
