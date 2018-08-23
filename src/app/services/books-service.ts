@@ -11,23 +11,16 @@ import {Companies} from "../domain/companies.model";
 
 @Injectable()
 export class BooksService {
-  books: Book[];
-  formats: Formats[];
-  countries: Country[];
-  cities: Cities[];
-  companies: Companies[];
-  url: string
-  headers: HttpHeaders;
+  books: Book[] = [];
+  formats: Formats[] = [];
+  countries: Country[] = [];
+  cities: Cities[] = [];
+  companies: Companies[] = [];
+  url: string;
 
   constructor(private http: HttpClient,
               private convert: DataConvertService) {
-    this.books = new Array<Book>();
-    this.formats = new Array<Formats>();
-    this.countries = new Array<Country>();
-    this.cities = new Array<Cities>();
-    this.companies = new Array<Companies>();
     this.url = 'http://localhost:3004';
-    this.headers = new HttpHeaders().set('x-auth-token', 'bad18eba1ff45jk7858b8ae88a77fa30')
   }
 
 
@@ -61,5 +54,10 @@ export class BooksService {
     })
   }
 
+  createBook(bookData) {
+    this.http.post(`${this.url}/books`, bookData)
+      .subscribe(res => {
+      })
+  }
 
 }

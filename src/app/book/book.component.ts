@@ -84,7 +84,8 @@ export class BookComponent implements OnInit {
 
   sendData() {
     if (this.addNewBookForm.valid) {
-      console.log(this.addNewBookForm.value);
+      this.booksService.createBook((this.addNewBookForm.value));
+      this.addNewBookForm.reset();
     }
   }
 

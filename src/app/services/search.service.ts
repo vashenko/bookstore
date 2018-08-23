@@ -1,29 +1,56 @@
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
-import {Cities} from "../domain/cities.model";
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {RequestOptions} from "@angular/http";
+import {HttpClient} from "@angular/common/http";
 import {BooksService} from "./books-service";
 import {Book} from "../domain/book.model";
-import 'rxjs/add/operator/map';
+import { filter } from 'rxjs/operators'
+
+import { map } from 'rxjs/operators';
+import {DataConvertService} from "./convert-data.service";
+
 
 @Injectable()
 export class SearchService {
 
-  url: string;
-  headers: HttpHeaders;
-
   constructor(private http: HttpClient,
-              private bookService: BooksService) {
-    this.url = 'http://localhost:3004';
-    this.headers = new HttpHeaders().set('x-auth-token', 'bad18eba1ff45jk7858b8ae88a77fa30');
+              private bookService: BooksService,
+              private convert: DataConvertService) {
   }
 
-  findByAuthor(value): Observable<Book[]> {
-    return this.bookService.getBooks().map((books) => {
-      return books.filter(book => book.author.includes(value));
-    });
-    // return array.filter( book => book.author.includes(value));
+  byNameTitleIsbn(term: string): Observable<Book[]> {
+    return this.http.get(' http://localhost:3004/books').pipe(
+      map((res: Response) => {
+        if(term === "") return;
+        let result: Book[] = [];
+        for(let v in res) {
+          if((res[v].author.includes(term) || res[v].title.includes(term) || res[v].isbn.includes(term))) {
+            result.push(new Book(res[v].author, res[v].cityId, res[v].companyId, res[v].countryId, res[v].description, res[v].formatId,
+              res[v].id, res[v].isbn, res[v].pages, res[v].price, res[v].title))
+          }
+        }
+        return result;
+      })
+    )
+  }
+
+  byPages(term: string): Observable<Book[]> {
+    return this.http.get(' http://localhost:3004/books').pipe(
+      map((res: Response) => {
+        if(term === "") return;
+        let result: Book[] = [];
+        for(let v in res) {
+          if(res[v].pages >= term) {
+            result.push(new Book(res[v].author, res[v].cityId, res[v].companyId, res[v].countryId, res[v].description, res[v].formatId,
+              res[v].id, res[v].isbn, res[v].pages, res[v].price, res[v].title))
+          }
+        }
+        return result;
+      })
+    )
   }
 
 }
+
+// return this.bookService.getBooks().map(res => {
+//   this.books = this.convert.intoBooks(res, this.books)
+//   return this.books.filter(book => book.author.includes(term));

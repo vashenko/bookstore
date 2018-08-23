@@ -1,9 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BooksService} from "../services/books-service";
 import { Book } from "../domain/book.model";
 import { Formats } from "../domain/formats.model";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators, ReactiveFormsModule} from "@angular/forms";
 import {SearchService} from "../services/search.service";
+import {Observable} from "rxjs/Observable";
+
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: 'app-search',
@@ -12,40 +17,47 @@ import {SearchService} from "../services/search.service";
 
 export class SearchComponent implements OnInit {
 
-  formats: Formats[];
-  books: Book[];
+  @ViewChild('pages') pagesAmount: FormGroup;
+  formats: Formats[] = [];
+  results: Observable<Book[]>;
 
   searchForm: FormGroup;
-  author: FormControl;
+  pages: FormGroup;
 
-  searches: string[] = [];
+  multiType: FormControl;
+  between: FormControl;
+  and: FormControl;
 
   constructor (private bookService: BooksService,
                private search: SearchService) {
-    this.books = new Array();
-    this.author = new FormControl('', Validators.required);
+
+
+    this.multiType = new FormControl('', Validators.required);
+    this.between = new FormControl('', Validators.required);
+    this.and = new FormControl('', Validators.required);
+
     this.searchForm = new FormGroup({
-      'author': this.author
+        'multiType': this.multiType,
+        'between': this.between,
+        'and': this.and
     })
   }
 
   ngOnInit() {
     this.bookService.getFormats().subscribe(formats => {
       this.formats = formats;
-    })
+    });
 
-    this.author.valueChanges
-      .subscribe(term => {
-        this.search.findByAuthor(this.author.value).subscribe(books => {
-          this.books = [];
-          this.books = books;
-          console.log(this.books);
-        });
-      })
-  }
-
-  findBook() {
+    this.results = this.multiType.valueChanges
+      .debounceTime(400)
+      .distinctUntilChanged()
+      .switchMap(value => this.search.byNameTitleIsbn(value));
 
   }
+
+  onValueChanged() {
+    this.results = this.search.byPages(this.between.value);
+  }
+
 
 }
