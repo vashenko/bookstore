@@ -3,7 +3,6 @@ import {Observable} from "rxjs/Observable";
 import {HttpClient} from "@angular/common/http";
 import {BooksService} from "./books-service";
 import {Book} from "../domain/book.model";
-import { filter } from 'rxjs/operators'
 
 import { map } from 'rxjs/operators';
 import {DataConvertService} from "./convert-data.service";
@@ -24,22 +23,6 @@ export class SearchService {
         let result: Book[] = [];
         for(let v in res) {
           if((res[v].author.includes(term) || res[v].title.includes(term) || res[v].isbn.includes(term))) {
-            result.push(new Book(res[v].author, res[v].cityId, res[v].companyId, res[v].countryId, res[v].description, res[v].formatId,
-              res[v].id, res[v].isbn, res[v].pages, res[v].price, res[v].title))
-          }
-        }
-        return result;
-      })
-    )
-  }
-
-  byPages(term: string): Observable<Book[]> {
-    return this.http.get(' http://localhost:3004/books').pipe(
-      map((res: Response) => {
-        if(term === "") return;
-        let result: Book[] = [];
-        for(let v in res) {
-          if(res[v].pages >= term) {
             result.push(new Book(res[v].author, res[v].cityId, res[v].companyId, res[v].countryId, res[v].description, res[v].formatId,
               res[v].id, res[v].isbn, res[v].pages, res[v].price, res[v].title))
           }

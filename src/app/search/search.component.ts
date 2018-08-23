@@ -22,24 +22,17 @@ export class SearchComponent implements OnInit {
   results: Observable<Book[]>;
 
   searchForm: FormGroup;
-  pages: FormGroup;
 
   multiType: FormControl;
-  between: FormControl;
-  and: FormControl;
 
   constructor (private bookService: BooksService,
                private search: SearchService) {
 
 
     this.multiType = new FormControl('', Validators.required);
-    this.between = new FormControl('', Validators.required);
-    this.and = new FormControl('', Validators.required);
 
     this.searchForm = new FormGroup({
-        'multiType': this.multiType,
-        'between': this.between,
-        'and': this.and
+        'multiType': this.multiType
     })
   }
 
@@ -54,10 +47,4 @@ export class SearchComponent implements OnInit {
       .switchMap(value => this.search.byNameTitleIsbn(value));
 
   }
-
-  onValueChanged() {
-    this.results = this.search.byPages(this.between.value);
-  }
-
-
 }

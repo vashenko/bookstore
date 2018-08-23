@@ -16,11 +16,10 @@ export class BooksService {
   countries: Country[] = [];
   cities: Cities[] = [];
   companies: Companies[] = [];
-  url: string;
+  url: string = 'http://localhost:3004';
 
   constructor(private http: HttpClient,
               private convert: DataConvertService) {
-    this.url = 'http://localhost:3004';
   }
 
 
