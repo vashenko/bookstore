@@ -7,68 +7,11 @@
 
         <h3 class="mb-4">Search</h3>
 
-        <div class="form-group row">
-          <label for="author" class="col-sm-3 col-form-label">Author/Title/Isbn</label>
-          <div class="col-sm-7">
+        <div class="form-group ">
+          <label for="author">Author/Title/Isbn</label>
+          <div>
             <input class="form-control" name="author" formControlName="multiType">
           </div>
-        </div>
-
-        <div class="form-group row">
-          <label for="format" class="col-sm-3 col-form-label">Format</label>
-          <div class="col-sm-7">
-            <select class="form-control" name="formatType">
-              <option *ngFor="let format of formats">{{format.name}}</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-group row">
-
-          <div class="col">
-            <div class="row">
-              <label for="page-min" class="col-sm-6 col-form-label">Pages between</label>
-              <div class="col-sm-6">
-                <input class="form-control" name="page-min">
-              </div>
-            </div>
-          </div>
-
-          <div class="col">
-            <div class="row">
-              <label  class="col-sm-2 col-form-label text-center" for="page-max">and</label>
-              <div class="col-sm-6">
-                <input class="form-control" name="page-max">
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="form-group row">
-
-          <div class="col">
-            <div class="row">
-
-              <label for="price-min" class="col-sm-6 col-form-label">Price between</label>
-              <div class="col-sm-6">
-                <input class="form-control" id="price-min">
-              </div>
-
-            </div>
-          </div>
-
-          <div class="col">
-            <div class="row">
-
-              <label  class="col-sm-2 col-form-label text-center" for="price-max">and</label>
-              <div class="col-sm-6">
-                <input class="form-control" id="price-max">
-              </div>
-
-            </div>
-          </div>
-
         </div>
       </form>
     </div>

@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BooksService} from "../services/books-service";
 import { Book } from "../domain/book.model";
-import { Formats } from "../domain/formats.model";
-import {FormControl, FormGroup, Validators, ReactiveFormsModule} from "@angular/forms";
+import {FormControl, FormGroup, Validators } from "@angular/forms";
 import {SearchService} from "../services/search.service";
 import {Observable} from "rxjs/Observable";
 
@@ -18,11 +17,9 @@ import 'rxjs/add/operator/switchMap';
 export class SearchComponent implements OnInit {
 
   @ViewChild('pages') pagesAmount: FormGroup;
-  formats: Formats[] = [];
   results: Observable<Book[]>;
 
   searchForm: FormGroup;
-
   multiType: FormControl;
 
   constructor (private bookService: BooksService,
@@ -37,10 +34,6 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.bookService.getFormats().subscribe(formats => {
-      this.formats = formats;
-    });
-
     this.results = this.multiType.valueChanges
       .debounceTime(400)
       .distinctUntilChanged()
